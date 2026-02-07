@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Mode - AI Bug Predictor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="developer-container">
+        <header class="developer-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-code"></i> Developer Bug Analyzer</h1>
+            <p class="subtitle">Analyze code, predict bugs, get AI fixes</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="code-input-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-edit"></i> Code Input</h3>
+                        <div class="lang-selector">
+                            <select id="languageSelect">
+                                <option value="python">Python</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="code-editor">
+                        <textarea id="codeInput" placeholder="Paste your code here...">
+def calculate_average(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    average = total / len(numbers)
+    return average
+
+def process_data(data):
+    result = []
+    for i in range(len(data)):
+        if data[i] is not None:
+            value = data[i] * 2
+            result.append(value)
+    return result
+
+def main():
+    # Test with empty list
+    numbers = []
+    avg = calculate_average(numbers)  # Bug: Division by zero
+    print(f"Average: {avg}")
+    
+    # Test with None values
+    data = [1, 2, None, 4, 5]
+    processed = process_data(data)
+    print(f"Processed: {processed}")
+    
+if __name__ == "__main__":
+    main()</textarea>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn analyze-btn" onclick="analyzeCode()">
+                            <i class="fas fa-search"></i> Analyze for Bugs
+                        </button>
+                        <button class="btn fix-btn" onclick="getAIHelp()">
+                            <i class="fas fa-magic"></i> Get AI Fix
+                        </button>
+                        <button class="btn clear-btn" onclick="clearCode()">
+                            <i class="fas fa-broom"></i> Clear
+                        </button>
+                        <button class="btn example-btn" onclick="loadExample()">
+                            <i class="fas fa-code"></i> Load Example
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bug-history">
+                    <h3><i class="fas fa-history"></i> Recent Analyses</h3>
+                    <div class="history-list" id="historyList">
+                        <!-- History will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="analysis-results">
+                    <div class="result-header">
+                        <h3><i class="fas fa-chart-bar"></i> Analysis Results</h3>
+                        <div class="severity-badge" id="severityBadge">Not Analyzed</div>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-title">Bug Probability</div>
+                            <div class="metric-value" id="bugProbability">0%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="bugProgress"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">Lines of Code</div>
+                            <div class="metric-value" id="locCount">0</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">Complexity Score</div>
+                            <div class="metric-value" id="complexityScore">0</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">Issue Count</div>
+                            <div class="metric-value" id="issueCount">0</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="bugChart"></canvas>
+                    </div>
+
+                    <div class="detailed-analysis">
+                        <h4><i class="fas fa-search"></i> Bug Analysis</h4>
+                        <div class="analysis-content" id="bugAnalysis">
+                            Submit code to see detailed analysis...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-fix-section">
+                    <h3><i class="fas fa-robot"></i> AI-Powered Fix</h3>
+                    <div class="fix-header">
+                        <button class="copy-btn" onclick="copyFixedCode()">
+                            <i class="fas fa-copy"></i> Copy Fixed Code
+                        </button>
+                    </div>
+                    <div class="fixed-code" id="fixedCode">
+                        // AI-generated fix will appear here
+                    </div>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> Explanation</h4>
+                        <div id="fixExplanation">
+                            Click "Get AI Fix" for explanation
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loader">
+                <div class="spinner"></div>
+                <p>Analyzing code with AI...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/developer.js"></script>
+    <script src="js/charts.js"></script>
+</body>
+</html>
