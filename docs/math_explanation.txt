@@ -1,0 +1,329 @@
+AI BUG PREDICTOR - MATHEMATICAL FOUNDATIONS
+===========================================
+
+1. LOGISTIC REGRESSION
+---------------------
+
+1.1 MODEL EQUATION:
+The logistic regression model predicts the probability of a binary outcome
+(bug present = 1, no bug = 0) using the sigmoid function:
+
+P(y = 1 | X) = σ(β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ)
+
+Where:
+- P(y = 1 | X): Probability of bug given features X
+- σ(z): Sigmoid function σ(z) = 1 / (1 + e^(-z))
+- β₀: Intercept (bias term)
+- β₁...βₙ: Coefficients for features x₁...xₙ
+- x₁...xₙ: Extracted code features
+
+1.2 SIGMOID FUNCTION:
+The sigmoid function maps any real-valued number to the range (0, 1):
+
+σ(z) = 1 / (1 + e^(-z))
+
+Properties:
+- σ(0) = 0.5
+- lim(z→∞) σ(z) = 1
+- lim(z→-∞) σ(z) = 0
+- S-shaped curve (logistic curve)
+
+1.3 DECISION BOUNDARY:
+The model predicts:
+- Bug if P(y = 1 | X) ≥ 0.5
+- No bug if P(y = 1 | X) < 0.5
+
+This corresponds to:
+- Bug if β₀ + β₁x₁ + ... + βₙxₙ ≥ 0
+- No bug if β₀ + β₁x₁ + ... + βₙxₙ < 0
+
+2. LOSS FUNCTION
+---------------
+
+2.1 LOG LOSS (CROSS-ENTROPY LOSS):
+Logistic regression minimizes the log loss:
+
+L(β) = -1/N Σ [yᵢ log(pᵢ) + (1 - yᵢ) log(1 - pᵢ)]
+
+Where:
+- N: Number of samples
+- yᵢ: True label (0 or 1)
+- pᵢ: Predicted probability P(yᵢ = 1 | Xᵢ)
+
+2.2 GRADIENT DESCENT:
+The coefficients are optimized using gradient descent:
+
+βⱼ := βⱼ - α ∂L/∂βⱼ
+
+Where:
+- α: Learning rate
+- ∂L/∂βⱼ: Gradient of loss with respect to βⱼ
+
+The gradient for logistic regression:
+∂L/∂βⱼ = 1/N Σ (pᵢ - yᵢ) xᵢⱼ
+
+3. FEATURE ENGINEERING
+---------------------
+
+3.1 CODE METRICS EXTRACTED:
+Our model uses 15+ features extracted from source code:
+
+1. loc: Lines of Code
+   - Count of non-empty lines
+   - Higher LOC → Higher complexity → Higher bug probability
+
+2. cyclomatic_complexity: McCabe's Complexity
+   - Measures number of linearly independent paths
+   - Formula: M = E - N + 2P
+     Where E = edges, N = nodes, P = connected components
+   - Higher complexity → Higher bug probability
+
+3. halstead_volume: Software Science Metric
+   - Measures program complexity based on operators and operands
+   - Formula: V = N × log₂(n)
+     Where N = total operators+operands, n = distinct operators+operands
+   - Higher volume → Higher bug probability
+
+4. Structural Features:
+   - num_functions: Number of function/method definitions
+   - num_loops: Number of loop constructs
+   - num_conditionals: Number of if/switch statements
+   - num_try_except: Number of exception handlers
+   - nested_depth: Maximum nesting depth
+
+5. Bug Pattern Indicators:
+   - num_null_checks: Number of null/None checks
+   - num_div_operations: Number of division operations
+   - num_array_access: Number of array/list accesses
+
+3.2 FEATURE SCALING:
+All features are standardized using Z-score normalization:
+
+x' = (x - μ) / σ
+
+Where:
+- x': Scaled feature value
+- x: Original feature value
+- μ: Mean of feature in training data
+- σ: Standard deviation of feature in training data
+
+4. PROBABILITY TO SEVERITY MAPPING
+----------------------------------
+
+4.1 THRESHOLDS:
+We map predicted probabilities to severity levels:
+
+Severity Levels:
+- Critical: P ≥ 0.8
+- High: 0.6 ≤ P < 0.8
+- Medium: 0.4 ≤ P < 0.6
+- Low: P < 0.4
+
+4.2 MATHEMATICAL JUSTIFICATION:
+These thresholds are based on:
+- Empirical analysis of bug datasets
+- Software engineering best practices
+- Risk assessment principles
+
+The thresholds can be expressed as:
+
+severity = 
+  ⎧ "critical"  if P ≥ 0.8
+  ⎪ "high"      if 0.6 ≤ P < 0.8
+  ⎨ "medium"    if 0.4 ≤ P < 0.6
+  ⎩ "low"       if P < 0.4
+
+5. MODEL EVALUATION METRICS
+--------------------------
+
+5.1 ACCURACY:
+Accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+Where:
+- TP: True Positives (correct bug predictions)
+- TN: True Negatives (correct no-bug predictions)
+- FP: False Positives (false alarms)
+- FN: False Negatives (missed bugs)
+
+5.2 ROC-AUC SCORE:
+Area Under the Receiver Operating Characteristic Curve
+- Measures model's ability to distinguish classes
+- Ranges from 0 to 1 (higher is better)
+- Random classifier: AUC = 0.5
+- Perfect classifier: AUC = 1.0
+
+ROC curve plots:
+- True Positive Rate (TPR) = TP / (TP + FN)
+- False Positive Rate (FPR) = FP / (FP + TN)
+
+5.3 CONFUSION MATRIX:
+Matrix showing prediction vs actual:
+                Predicted
+              | Bug | No Bug |
+Actual Bug    | TP  |  FN    |
+Actual No Bug | FP  |  TN    |
+
+6. CODE COMPLEXITY CALCULATIONS
+------------------------------
+
+6.1 CYCLOMATIC COMPLEXITY (MCCABE):
+For control flow graph with:
+- E = number of edges
+- N = number of nodes
+- P = number of connected components
+
+Complexity M = E - N + 2P
+
+In practice, we approximate by counting:
+- Each function starts with M = 1
+- Add 1 for each: if, while, for, case, catch, &&, ||
+
+6.2 HALSTEAD METRICS:
+Given:
+- η₁ = number of distinct operators
+- η₂ = number of distinct operands
+- N₁ = total number of operators
+- N₂ = total number of operands
+
+Then:
+- Program vocabulary: η = η₁ + η₂
+- Program length: N = N₁ + N₂
+- Volume: V = N × log₂(η)
+- Difficulty: D = (η₁/2) × (N₂/η₂)
+- Effort: E = D × V
+
+7. IMPLEMENTATION IN CODE
+------------------------
+
+7.1 LOGISTIC REGRESSION IN sklearn:
+In train_model.py:model = LogisticRegression(
+random_state=42,
+max_iter=1000,
+class_weight='balanced',
+solver='lbfgs',
+C=1.0
+)
+
+Parameters:
+- C: Inverse regularization strength (smaller = stronger regularization)
+- class_weight: Handles imbalanced datasets
+- solver: Optimization algorithm
+- max_iter: Maximum iterations for convergence
+
+7.2 PREDICTION IN ml_service.py:Get probability
+probabilities = self.model.predict_proba(features)
+bug_probability = probabilities[0, 1] # Probability of class 1
+
+Determine severity
+if bug_probability > 0.8:
+severity = "critical"
+elif bug_probability > 0.6:
+severity = "high"
+elif bug_probability > 0.4:
+severity = "medium"
+else:
+severity = "low"
+
+7.3 FEATURE EXTRACTION IN utils.py:
+Each feature extraction function implements the mathematical formulas:
+- count_lines_of_code(): Counts non-empty lines
+- calculate_cyclomatic_complexity(): Approximates McCabe's complexity
+- calculate_halstead_volume(): Calculates software science metrics
+- Other functions count specific code patterns
+
+8. STATISTICAL CONCEPTS
+----------------------
+
+8.1 CLASS IMBALANCE HANDLING:
+Our dataset has ~30% bugs, 70% no bugs. We handle this by:
+- Using class_weight='balanced' in LogisticRegression
+- This adjusts weights inversely proportional to class frequencies
+
+Weight for class i: w_i = n_samples / (n_classes * n_class_i)
+
+8.2 FEATURE CORRELATION:
+We remove highly correlated features (correlation > 0.9) to prevent:
+- Multicollinearity issues
+- Unstable coefficient estimates
+- Overfitting
+
+Correlation between features i and j:
+ρᵢⱼ = Cov(xᵢ, xⱼ) / (σᵢ × σⱼ)
+
+8.3 CONFIDENCE INTERVALS:
+For production use, we could add confidence intervals:
+CI = p ± z × √(p(1-p)/n)
+
+Where:
+- p: Predicted probability
+- z: Z-score for confidence level (1.96 for 95%)
+- n: Number of training samples
+
+9. MATHEMATICAL INSIGHTS
+-----------------------
+
+9.1 WHY LOGISTIC REGRESSION?
+- Interpretable coefficients
+- Provides probabilities, not just classifications
+- Handles linear relationships well
+- Efficient for our feature count (~15 features)
+- Less prone to overfitting than complex models
+
+9.2 PROBABILITY INTERPRETATION:
+The predicted probability represents:
+- Confidence in bug presence
+- Risk assessment score
+- Prioritization metric for code review
+
+9.3 SEVERITY THRESHOLDS REASONING:
+- Critical (≥0.8): High confidence of serious issues
+- High (0.6-0.8): Likely issues needing attention
+- Medium (0.4-0.6): Potential issues to monitor
+- Low (<0.4): Likely safe, but review recommended
+
+10. LIMITATIONS AND ASSUMPTIONS
+------------------------------
+
+10.1 ASSUMPTIONS:
+- Features are linearly related to log-odds of bugs
+- Independent features (handled by correlation removal)
+- Sufficient and representative training data
+- Stationary relationship (bugs patterns don't change over time)
+
+10.2 LIMITATIONS:
+- Cannot capture complex non-linear relationships
+- Relies on feature extraction quality
+- Training data may not cover all bug types
+- Language-specific features for Python primarily
+
+11. FUTURE MATHEMATICAL IMPROVEMENTS
+-----------------------------------
+
+11.1 ADVANCED MODELS:
+- Random Forests: Handle non-linear relationships
+- Gradient Boosting: Better performance on complex patterns
+- Neural Networks: Learn complex feature interactions
+- Ensemble Methods: Combine multiple models
+
+11.2 ADVANCED METRICS:
+- Precision-Recall curves for imbalanced data
+- Fβ-score with custom β for risk tolerance
+- Calibration curves for probability reliability
+- SHAP values for feature importance explanation
+
+12. EDUCATIONAL VALUE
+--------------------
+
+12.1 FOR STUDENTS:
+- Concrete example of ML applied to software engineering
+- Understanding of probability and statistics in practice
+- Insight into code quality metrics
+- Real-world problem solving with mathematics
+
+12.2 FOR DEVELOPERS:
+- Quantitative approach to code quality
+- Risk assessment using probabilities
+- Data-driven decision making
+- Understanding model limitations and assumptions
+
+This mathematical foundation provides transparency into how the AI Bug Predictor works, enabling users to trust and understand the predictions while providing educational value about applied mathematics in software engineering.

@@ -1,0 +1,287 @@
+#three-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00dbde, #fc00ff);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #fc00ff, #00dbde);
+}
+
+/* Selection color */
+::selection {
+    background: rgba(0, 219, 222, 0.3);
+    color: white;
+}
+
+/* Focus styles */
+:focus {
+    outline: 2px solid rgba(0, 219, 222, 0.5);
+    outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s ease, 
+                border-color 0.3s ease, 
+                transform 0.3s ease,
+                opacity 0.3s ease;
+}
+
+/* Neon glow effect for cards */
+.card {
+    position: relative;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00dbde, #fc00ff, #00dbde);
+    border-radius: 22px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+    opacity: 0.5;
+    filter: blur(10px);
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 219, 222, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 219, 222, 0.8);
+    }
+}
+
+.btn.analyze-btn {
+    animation: pulse 2s infinite;
+}
+
+/* Gradient borders */
+.gradient-border {
+    position: relative;
+    border: double 3px transparent;
+    border-radius: 15px;
+    background-image: linear-gradient(black, black), 
+                      linear-gradient(45deg, #00dbde, #fc00ff);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+/* Shimmer effect */
+.shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        left: 100%;
+    }
+}
+
+/* Floating animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.card-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Glitch text effect */
+.glitch {
+    position: relative;
+    animation: glitch 5s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+    }
+    1%, 3% {
+        transform: translate(-2px, 2px);
+    }
+    2%, 4% {
+        transform: translate(2px, -2px);
+    }
+    5% {
+        transform: translate(0);
+    }
+}
+
+/* Background patterns */
+.bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(0, 219, 222, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(252, 0, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    z-index: -1;
+}
+
+/* Grid background */
+.grid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+}
+
+/* Particle effect */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 219, 222, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Neon text */
+.neon-text {
+    text-shadow: 
+        0 0 5px #00dbde,
+        0 0 10px #00dbde,
+        0 0 20px #00dbde,
+        0 0 40px #00dbde;
+}
+
+/* Loading dots */
+.loading-dots {
+    display: inline-block;
+}
+
+.loading-dots::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
+    }
+}
+
+/* Code syntax highlighting */
+.code-keyword {
+    color: #ff79c6;
+}
+
+.code-string {
+    color: #f1fa8c;
+}
+
+.code-number {
+    color: #bd93f9;
+}
+
+.code-comment {
+    color: #6272a4;
+}
+
+.code-function {
+    color: #50fa7b;
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card::after {
+        display: none;
+    }
+    
+    .btn.analyze-btn {
+        animation: none;
+    }
+}

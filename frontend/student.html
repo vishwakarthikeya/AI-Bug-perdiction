@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Mode - AI Bug Predictor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="student-container">
+        <header class="student-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-graduation-cap"></i> Student Learning Assistant</h1>
+            <p class="subtitle">Ask questions about bugs and get AI explanations</p>
+        </header>
+
+        <div class="chat-container">
+            <div class="chat-sidebar">
+                <h3><i class="fas fa-lightbulb"></i> Learning Topics</h3>
+                <div class="topics">
+                    <button class="topic-btn" onclick="loadTopic('memory_leak')">
+                        <i class="fas fa-memory"></i> Memory Leaks
+                    </button>
+                    <button class="topic-btn" onclick="loadTopic('null_pointer')">
+                        <i class="fas fa-exclamation-triangle"></i> Null Pointers
+                    </button>
+                    <button class="topic-btn" onclick="loadTopic('infinite_loop')">
+                        <i class="fas fa-infinity"></i> Infinite Loops
+                    </button>
+                    <button class="topic-btn" onclick="loadTopic('buffer_overflow')">
+                        <i class="fas fa-exclamation-circle"></i> Buffer Overflows
+                    </button>
+                    <button class="topic-btn" onclick="loadTopic('race_condition')">
+                        <i class="fas fa-bolt"></i> Race Conditions
+                    </button>
+                </div>
+
+                <div class="upload-section">
+                    <h3><i class="fas fa-upload"></i> Upload Code</h3>
+                    <input type="file" id="codeFile" accept=".py,.js,.java,.cpp,.txt">
+                    <button class="upload-btn" onclick="uploadCodeFile()">
+                        <i class="fas fa-cloud-upload-alt"></i> Analyze Uploaded Code
+                    </button>
+                </div>
+
+                <div class="examples">
+                    <h3><i class="fas fa-code"></i> Example Questions</h3>
+                    <button class="example-btn" onclick="loadExample('example1')">
+                        Why does this cause a memory leak?
+                    </button>
+                    <button class="example-btn" onclick="loadExample('example2')">
+                        How to fix null pointer exceptions?
+                    </button>
+                    <button class="example-btn" onclick="loadExample('example3')">
+                        What's wrong with this loop?
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-header">
+                            <i class="fas fa-robot"></i> AI Assistant
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm your AI learning assistant. I can help you understand bugs, 
+                            explain code issues, and teach you programming concepts. 
+                            Ask me anything or upload code for analysis!
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="input-container">
+                        <textarea 
+                            id="userInput" 
+                            placeholder="Ask about bugs, upload code, or describe a programming problem..."
+                            rows="3"></textarea>
+                        <div class="input-actions">
+                            <button class="action-btn" title="Format Code" onclick="formatCode()">
+                                <i class="fas fa-code"></i>
+                            </button>
+                            <button class="action-btn" title="Clear Chat" onclick="clearChat()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="send-btn" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                        <div class="typing-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <span>AI is thinking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-resources">
+            <h3><i class="fas fa-book"></i> Learning Resources</h3>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <i class="fas fa-video"></i>
+                    <h4>Video Tutorials</h4>
+                    <p>Watch bug fixing tutorials</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-file-code"></i>
+                    <h4>Code Examples</h4>
+                    <p>Common bug patterns</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-question-circle"></i>
+                    <h4>Quiz</h4>
+                    <p>Test your knowledge</p>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h4>Progress</h4>
+                    <p>Track learning progress</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/student.js"></script>
+</body>
+</html>

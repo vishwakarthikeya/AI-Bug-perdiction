@@ -1,0 +1,23 @@
+# This is not actual code, but shows what model.pkl contains
+
+model_artifacts = {
+    'model': trained_logistic_regression_model,
+    'scaler': fitted_standard_scaler,
+    'features': ['lines_of_code', 'cyclomatic_complexity', 'past_bug_count', ...],
+    'training_shape': (40000, 7)  # 40k training samples, 7 features
+}
+
+# To use the model:
+import pickle
+
+with open('model.pkl', 'rb') as f:
+    artifacts = pickle.load(f)
+    
+model = artifacts['model']
+scaler = artifacts['scaler']
+features = artifacts['features']
+
+# Make prediction
+new_data = [[150, 12, 3, 8, ...]]  # Your code metrics
+scaled_data = scaler.transform(new_data)
+probability = model.predict_proba(scaled_data)[0, 1]
